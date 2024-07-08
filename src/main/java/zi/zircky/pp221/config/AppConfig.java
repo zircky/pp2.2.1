@@ -1,5 +1,9 @@
 package zi.zircky.pp221.config;
 
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,10 +16,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import zi.zircky.pp221.model.User;
-
-
-import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:application.properties")
@@ -44,7 +44,9 @@ public class AppConfig {
     Properties props=new Properties();
     props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
     props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+    props.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 
+    factoryBean.setPackagesToScan("zi.zircky.pp221.model");
     factoryBean.setHibernateProperties(props);
     factoryBean.setAnnotatedClasses(User.class);
     return factoryBean;
